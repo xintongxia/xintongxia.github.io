@@ -80,12 +80,14 @@ export default class Text {
       },
       instanceCount: 1
     });
+
     this._models = {
       gameState: this._createModel('gameState'),
       level: this._createModel('level'),
       lives: this._createModel('lives'),
       powerup: this._createModel('powerup')
     };
+
     this._lastGameState = null;
     this._lastLevel = -1;
     this._lastLives = -1;
@@ -257,6 +259,9 @@ export default class Text {
     for (const model of models) {
       model.setProps(this._cache.get(''));
     }
+    this._lastGameState = null;
+    this._lastLevel = -1;
+    this._lastLives = -1;
   }
 
   destroy() {

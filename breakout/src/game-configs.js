@@ -49,6 +49,8 @@ export const LEVELS = [
   LAYOUT_BOUNCE_GALORE
 ];
 
+export const MAX_LIVES = 3;
+
 export const BRICKS_PER_LINE = 15;
 
 export const BRICK_SIZE = [50, 30];

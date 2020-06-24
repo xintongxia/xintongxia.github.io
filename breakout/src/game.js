@@ -9,7 +9,8 @@ import {
   LEVELS,
   TEXTURES,
   BRICKS_PER_LINE,
-  GAME_STATE
+  GAME_STATE,
+  MAX_LIVES
 } from './game-configs';
 
 import ResourceManager from './resource-manager';
@@ -71,6 +72,9 @@ export default class Game {
       } else {
         this._gameState = GAME_STATE.MENU;
       }
+      this._level = 0;
+      this._lives = MAX_LIVES;
+
       this._bricks.reset({level: this._level});
       this._particles.reset();
       this._powerup.reset();
@@ -95,11 +99,10 @@ export default class Game {
     });
 
     this._level = 0;
-    this._lives = 3;
-
+    this._lives = MAX_LIVES;
     this._gameState = GAME_STATE.MENU;
-    this._resourceManager = new ResourceManager(gl);
 
+    this._resourceManager = new ResourceManager(gl);
     this._initializeMatrices();
     this._initializeTextures();
 
