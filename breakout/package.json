@@ -1,0 +1,39 @@
+{
+  "name": "webgl-exercise",
+  "version": "0.0.1",
+  "scripts": {
+    "start-local": "webpack-dev-server --env.local --progress --hot --open",
+    "start": "webpack-dev-server --open",
+    "build": "webpack -p --env.prod",
+    "pretty": "prettier --write src",
+    "lint": "eslint --fix src && yarn pretty"
+  },
+  "dependencies": {
+    "@luma.gl/constants": "^8.1.2",
+    "@luma.gl/core": "^8.1.2",
+    "@luma.gl/engine": "^8.1.2",
+    "@luma.gl/gltools": "^8.1.2",
+    "@luma.gl/webgl": "^8.1.2",
+    "@math.gl/core": "^3.1.5",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "styled-components": "^5.1.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
+    "babel-loader": "^8.1.0",
+    "eslint": "^7.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-react": "^7.20.0",
+    "html-webpack-plugin": "^4.0.3",
+    "prettier": "^2.0.5",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  }
+}
