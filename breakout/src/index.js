@@ -68,7 +68,7 @@ class App extends React.PureComponent {
         break;
 
       default:
-        console.log(e.keyCode, e.key)
+        console.log(e.keyCode, e.key);
     }
   }
 
@@ -82,7 +82,7 @@ class App extends React.PureComponent {
           style={CANVAS_STYLE}
           height={VIEW.height}
           width={VIEW.width}
-          ref={_ => this._gameRef = _}
+          ref={(_) => (this._gameRef = _)}
         />
       </Container>
     );

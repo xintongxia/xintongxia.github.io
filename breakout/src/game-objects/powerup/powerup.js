@@ -7,7 +7,15 @@ import {GAME_STATE} from '../../game-configs';
 import powerupVs from './powerup-vs';
 import powerupFs from './powerup-fs';
 
-export const POWERUP_TYPES = ['speed', 'sticky', 'passthrough', 'increase', 'confuse', 'chaos', 'shake'];
+export const POWERUP_TYPES = [
+  'speed',
+  'sticky',
+  'passthrough',
+  'increase',
+  'confuse',
+  'chaos',
+  'shake'
+];
 const SHAKE_TIME = 0.5;
 const CHAOS_TIME = 2;
 const CONFUSE_TIME = 2;
@@ -84,7 +92,7 @@ export default class Powerup extends GameObject {
 
   get activated() {
     let count = 0;
-    POWERUP_TYPES.forEach(type => count += this[type] > 0);
+    POWERUP_TYPES.forEach((type) => (count += this[type] > 0));
     return count;
   }
 
@@ -95,10 +103,22 @@ export default class Powerup extends GameObject {
     const positionBuffer = new Buffer(
       gl,
       new Float32Array([
-        -1.0, -1.0, 0.0, 0.0,
-        1.0, -1.0, 1.0, 0.0,
-        1.0, 1.0, 1.0, 1.0,
-        -1.0, 1.0, 0.0, 1.0
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        -1.0,
+        1.0,
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        -1.0,
+        1.0,
+        0.0,
+        1.0
       ])
     );
 
@@ -309,4 +329,3 @@ export default class Powerup extends GameObject {
     return chance % r === 0;
   }
 }
-

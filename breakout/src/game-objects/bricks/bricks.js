@@ -83,10 +83,22 @@ export default class Bricks extends GameObject {
     const positionBuffer = new Buffer(
       gl,
       new Float32Array([
-        -1.0, -1.0, 0.0, 0.0,
-        1.0, -1.0, 1.0, 0.0,
-        1.0, 1.0, 1.0, 1.0,
-        -1.0, 1.0, 0.0, 1.0
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        -1.0,
+        1.0,
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        -1.0,
+        1.0,
+        0.0,
+        1.0
       ])
     );
 
@@ -124,7 +136,7 @@ export default class Bricks extends GameObject {
     const gl = this.gl;
     if (this._changed) {
       this.model.setAttributes({
-        instanceStates: new Buffer(gl, this._instanceStates),
+        instanceStates: new Buffer(gl, this._instanceStates)
       });
       this._changed = false;
     }
@@ -149,16 +161,12 @@ export default class Bricks extends GameObject {
   }
 
   getInstance(index) {
-    const {
-      instanceColors,
-      instancePositions,
-      instanceStates
-    } = this;
+    const {instanceColors, instancePositions, instanceStates} = this;
     return {
       color: instanceColors.subarray(index * 4, index * 4 + 3),
       state: instanceStates[index],
-      offset: instancePositions.subarray(index  * 2, index * 2 + 2)
-    }
+      offset: instancePositions.subarray(index * 2, index * 2 + 2)
+    };
   }
 
   _createInstances(layout) {
@@ -170,7 +178,7 @@ export default class Bricks extends GameObject {
     this._activeBricks = instanceCount;
 
     let instancePositions = new Float32Array(instanceCount * 2);
-    let instanceColors =  new Float32Array(instanceCount * 4);
+    let instanceColors = new Float32Array(instanceCount * 4);
     let instanceStates = new Float32Array(instanceCount);
 
     for (let i = 0; i < instanceCount; i++) {

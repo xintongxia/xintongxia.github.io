@@ -1,7 +1,6 @@
 import * as GL from '@luma.gl/constants';
 import {Buffer} from '@luma.gl/webgl';
 import {Model} from '@luma.gl/engine';
-import {Matrix4} from '@math.gl/core';
 
 import textVs from './text-vs';
 import textFs from './text-fs';
@@ -15,7 +14,7 @@ const GAME_STATE_MAP = {
     {offset: [-250, 0], text: 'Use w/s to select levels', size: 12},
   ],
   [GAME_STATE.STUCK]: [
-    {offset: [-250, 0], text: 'Press shift to free the ball', size: 16},
+    {offset: [-250, 0], text: 'Press space to free the ball', size: 16},
     {offset: [-250, 0], text: 'Use a/d to move paddle', size: 12},
   ],
   [GAME_STATE.WON]: [

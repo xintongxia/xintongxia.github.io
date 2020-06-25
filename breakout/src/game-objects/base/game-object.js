@@ -36,11 +36,7 @@ export default class GameObject {
   set size(size) {
     this._size.set(size[0], size[1]);
     this._halfSize.set(size[0] / 2, size[1] / 2);
-    this._modelMatrix = new Matrix4().scale([
-      this.halfSize[0],
-      this.halfSize[1],
-      1
-    ]);
+    this._modelMatrix = new Matrix4().scale([this.halfSize[0], this.halfSize[1], 1]);
     this.model.setUniforms({
       uModelMatrix: this._modelMatrix
     });
@@ -81,11 +77,7 @@ export default class GameObject {
     this._size = this._size.set(this.initialSize[0], this.initialSize[1]);
     this._halfSize = this._halfSize.set(this._size[0] / 2, this._size[1] / 2);
 
-    this._modelMatrix = new Matrix4().scale([
-      this._halfSize[0],
-      this._halfSize[1],
-      1
-    ]);
+    this._modelMatrix = new Matrix4().scale([this._halfSize[0], this._halfSize[1], 1]);
 
     const halfX = gl.drawingBufferWidth / 2;
     const halfY = gl.drawingBufferHeight / 2;
@@ -112,11 +104,7 @@ export default class GameObject {
     this._offset = this._offset.set(...this.initialOffset);
     this._size = this._size.set(...this.initialSize);
     this._halfSize = this._halfSize.set(this._size[0] / 2, this._size[1] / 2);
-    this._modelMatrix = new Matrix4().scale([
-      this.initialSize[0] / 2,
-      this.initialSize[1] / 2,
-      1
-    ]);
+    this._modelMatrix = new Matrix4().scale([this.initialSize[0] / 2, this.initialSize[1] / 2, 1]);
   }
 
   destroy() {

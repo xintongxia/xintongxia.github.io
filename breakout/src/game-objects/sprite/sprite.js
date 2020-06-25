@@ -34,21 +34,28 @@ export default class Sprite extends GameObject {
     const positionBuffer = new Buffer(
       gl,
       new Float32Array([
-        -1.0, -1.0, 0.0, 0.0,
-        1.0, -1.0, 1.0, 0.0,
-        1.0, 1.0, 1.0, 1.0,
-        -1.0, 1.0, 0.0, 1.0
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        -1.0,
+        1.0,
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        -1.0,
+        1.0,
+        0.0,
+        1.0
       ])
     );
 
     const colorBuffer = new Buffer(
       gl,
-      new Float32Array([
-        0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0
-      ])
+      new Float32Array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0])
     );
 
     return new Model(gl, {
@@ -108,10 +115,12 @@ export default class Sprite extends GameObject {
   }
 
   render(options) {
-    this.model.setUniforms({
-      uOffset: this.offset,
-      uColor: this.color
-    }).draw(options);
+    this.model
+      .setUniforms({
+        uOffset: this.offset,
+        uColor: this.color
+      })
+      .draw(options);
   }
 
   reset() {

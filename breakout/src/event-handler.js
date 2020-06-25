@@ -35,5 +35,5 @@ export default class EventHandler {
       default:
         console.log(e.code);
     }
-  };
+  }
 }

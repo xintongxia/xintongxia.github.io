@@ -26,10 +26,22 @@ export default class Particles extends GameObject {
     const positionBuffer = new Buffer(
       gl,
       new Float32Array([
-        -1.0, -1.0, 0.0, 0.0,
-        1.0, -1.0, 1.0, 0.0,
-        1.0, 1.0, 1.0, 1.0,
-        -1.0, 1.0, 0.0, 1.0
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        -1.0,
+        1.0,
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        -1.0,
+        1.0,
+        0.0,
+        1.0
       ])
     );
 
@@ -47,8 +59,6 @@ export default class Particles extends GameObject {
       instanceColors[i * 4 + 2] = rColor;
       instanceColors[i * 4 + 3] = rColor;
     }
-
-
 
     const model = new Model(gl, {
       vs: particlesVs,
@@ -70,16 +80,13 @@ export default class Particles extends GameObject {
 
     this._instanceColors = instanceColors;
     this._instancePositions = instancePositions;
-    this._initialInstanceColors =  instanceColors.slice();
+    this._initialInstanceColors = instanceColors.slice();
     this._initialInstancePositions = instancePositions.slice();
 
     return model;
   }
 
-  update(dt, {
-    gameState,
-    spriteOffset
-  }) {
+  update(dt, {gameState, spriteOffset}) {
     if (gameState !== GAME_STATE.STUCK && gameState !== GAME_STATE.ACTIVE) {
       return this;
     }
@@ -144,14 +151,8 @@ export default class Particles extends GameObject {
     this._instanceColors = this._initialInstanceColors.slice();
     this._instancePositions = this._initialInstancePositions.slice();
     this.model.setAttributes({
-      instanceColors: [
-        new Buffer(this.gl, this._instanceColors),
-        {divisor: 1}
-      ],
-      instancePositions: [
-        new Buffer(this.gl, this._instancePositions),
-        {divisor: 1}
-      ]
+      instanceColors: [new Buffer(this.gl, this._instanceColors), {divisor: 1}],
+      instancePositions: [new Buffer(this.gl, this._instancePositions), {divisor: 1}]
     });
   }
 }

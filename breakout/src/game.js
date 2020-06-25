@@ -5,13 +5,7 @@ import {clear, Texture2D, Framebuffer} from '@luma.gl/webgl';
 import * as GL from '@luma.gl/constants';
 
 import {detectCircleRectCollision, detectRectCollision, COMPASS} from './math-utils';
-import {
-  LEVELS,
-  TEXTURES,
-  BRICKS_PER_LINE,
-  GAME_STATE,
-  MAX_LIVES
-} from './game-configs';
+import {LEVELS, TEXTURES, BRICKS_PER_LINE, GAME_STATE, MAX_LIVES} from './game-configs';
 
 import ResourceManager from './resource-manager';
 import Sprite from './game-objects/sprite/sprite';
@@ -68,7 +62,7 @@ export default class Game {
     if (this._gameState !== GAME_STATE.MENU) {
       if (gameState) {
         this._gameState = gameState;
-        setTimeout(() => this._gameState = GAME_STATE.MENU, 2000);
+        setTimeout(() => (this._gameState = GAME_STATE.MENU), 2000);
       } else {
         this._gameState = GAME_STATE.MENU;
       }
@@ -87,7 +81,7 @@ export default class Game {
   changeLevel(delta) {
     if (this._gameState === GAME_STATE.MENU) {
       this._level = (this._level + delta) % LEVELS.length;
-      this._bricks.setProps({layout:  LEVELS[this._level]});
+      this._bricks.setProps({layout: LEVELS[this._level]});
     }
   }
 
@@ -112,10 +106,7 @@ export default class Game {
     const spriteVelocity = [300, 400];
 
     const particlesSize = spriteSize;
-    const particlesOffset = [
-      spriteOffset[0] + spriteRadius,
-      spriteOffset[1] + spriteRadius
-    ];
+    const particlesOffset = [spriteOffset[0] + spriteRadius, spriteOffset[1] + spriteRadius];
 
     const playerSize = [100, 20];
     const playerOffset = [0, -290];
@@ -132,9 +123,9 @@ export default class Game {
       layout: LEVELS[0],
       textures: {
         block: this._resourceManager.getTexture('block'),
-        blockSolid: this._resourceManager.getTexture('blockSolid'),
+        blockSolid: this._resourceManager.getTexture('blockSolid')
       },
-      projectionMatrix: this._projectionMatrix,
+      projectionMatrix: this._projectionMatrix
     });
 
     this._particles = new Particles(gl, {
@@ -144,7 +135,7 @@ export default class Game {
       textures: {
         particle: this._resourceManager.getTexture('particle')
       },
-      projectionMatrix: this._projectionMatrix,
+      projectionMatrix: this._projectionMatrix
     });
 
     this._powerup = new Powerup(gl, {
@@ -156,7 +147,7 @@ export default class Game {
         passthrough: this._resourceManager.getTexture('passthrough'),
         increase: this._resourceManager.getTexture('increase'),
         confuse: this._resourceManager.getTexture('confuse'),
-        chaos: this._resourceManager.getTexture('chaos'),
+        chaos: this._resourceManager.getTexture('chaos')
       },
       projectionMatrix: this._projectionMatrix,
       onActivate: this._activatePowerup.bind(this),
@@ -184,17 +175,17 @@ export default class Game {
       textures: {
         player: this._resourceManager.getTexture('player')
       },
-      projectionMatrix: this._projectionMatrix,
+      projectionMatrix: this._projectionMatrix
     });
 
     this._text = new Text(gl, {
       size: [16, 16 * 1.2],
       offset: [-220, 0],
-      projectionMatrix: this._projectionMatrix,
+      projectionMatrix: this._projectionMatrix
     });
 
     this._scene = new Scene(gl, {
-      projectionMatrix: this._projectionMatrix,
+      projectionMatrix: this._projectionMatrix
     });
 
     this._framebuffer = this._getFrameBuffer(gl);
@@ -328,11 +319,7 @@ export default class Game {
   }
 
   _detectSpriteBricksCollision() {
-    const {
-      offset: spriteOffset,
-      radius: spriteRadius,
-      velocity: spriteVelocity,
-    } = this._sprite;
+    const {offset: spriteOffset, radius: spriteRadius, velocity: spriteVelocity} = this._sprite;
 
     const {
       halfSize: brickHalfSize,
@@ -396,10 +383,7 @@ export default class Game {
         initialVelocity: initialSpriteVelocity,
         offset: spriteOffset
       } = this._sprite;
-      const {
-        offset: playerOffset,
-        size: playerSize
-      } = this._player;
+      const {offset: playerOffset, size: playerSize} = this._player;
 
       const xDist = spriteOffset[0] - playerOffset[0];
       const percentage = xDist / playerSize[0] / 2;
@@ -410,10 +394,7 @@ export default class Game {
       const len = spriteVelocity.len();
       const normalized = scratchVelocity.normalize();
 
-      this._sprite.velocity = [
-        normalized[0] * len,
-        normalized[1] * len
-      ];
+      this._sprite.velocity = [normalized[0] * len, normalized[1] * len];
 
       if (this._powerup.sticky) {
         this._gameState = GAME_STATE.STUCK;
@@ -426,13 +407,10 @@ export default class Game {
     for (const obj of objects) {
       obj.offset[1] += dt * powerupVelocity[1];
 
-      const isCollided = detectRectCollision(
-        this._player,
-        {
-          offset: obj.offset,
-          size: powerupSize,
-        }
-      );
+      const isCollided = detectRectCollision(this._player, {
+        offset: obj.offset,
+        size: powerupSize
+      });
 
       if (isCollided) {
         this._powerup.activate(obj);
@@ -474,12 +452,8 @@ export default class Game {
     }
 
     clear(gl, {color: [0, 0, 0, 1.0], depth: true, framebuffer});
-    bricks
-      .update(dt, {gameState: this._gameState})
-      .render({framebuffer});
-    player
-      .update(dt, {gameState: this._gameState})
-      .render({framebuffer});
+    bricks.update(dt, {gameState: this._gameState}).render({framebuffer});
+    player.update(dt, {gameState: this._gameState}).render({framebuffer});
 
     setParameters(gl, {
       blendFunc: [GL.SRC_ALPHA, GL.ONE]
@@ -494,20 +468,14 @@ export default class Game {
       blendFunc: [GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA]
     });
 
-    powerup
-      .update(dt, {gameState: this._gameState})
-      .render({framebuffer});
+    powerup.update(dt, {gameState: this._gameState}).render({framebuffer});
 
     sprite
       .update(dt, {
         gameState: this._gameState,
-        offset: [
-          player.offset[0],
-          player.offset[1] + player.halfSize[1] + sprite.radius
-        ]
+        offset: [player.offset[0], player.offset[1] + player.halfSize[1] + sprite.radius]
       })
       .render({framebuffer});
-
 
     clear(gl, {color: [0, 0, 0, 1.0], depth: true});
 
