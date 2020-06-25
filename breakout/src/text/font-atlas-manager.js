@@ -4,7 +4,7 @@ import GL from '@luma.gl/constants';
 const MAX_CANVAS_WIDTH = 512;
 const DEFAULT__CANVAS_HEIGHT = 1024;
 const BASELINE_SCALE = 0.9;
-export const HEIGHT_SCALE = 1.1;
+export const HEIGHT_SCALE = 1.2;
 export const BUFFER = 2;
 
 function getDefaultCharacterSet() {

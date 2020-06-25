@@ -28,10 +28,9 @@ void main() {
     (pct.xy + 1.0) / 2.0
   ) / uIconsTextureDim;
   
-  vec2 size = vec2(instanceSizes, instanceSizes * uHeightScale) / 2.0; 
-  
-  vec4 pos = vec4(size * (positions.xy + 1.0), 0.0, 1.0);
-  pos.xy = pos.xy + instancePositions.xy;
+  vec2 halfSize = vec2(instanceSizes, instanceSizes * uHeightScale) / 2.0; 
+  vec4 pos = vec4(halfSize * positions.xy, 0.0, 1.0);
+  pos.xy += instancePositions.xy;
 
   gl_Position = uProjectionMatrix * pos;
 }

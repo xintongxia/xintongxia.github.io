@@ -8,22 +8,24 @@ import FontAtlasManager, {HEIGHT_SCALE} from './font-atlas-manager';
 import {GAME_STATE} from '../game-configs';
 import {POWERUP_TYPES} from '../game-objects/powerup/powerup';
 
+const BUFFER = 2;
+
 const GAME_STATE_MAP = {
   [GAME_STATE.MENU]: [
     {offset: [-250, 0], text: 'Press ENTER to start game', size: 16},
-    {offset: [-250, 0], text: 'Use w/s to select levels', size: 12},
+    {offset: [-250, 0], text: 'Use w/s to select levels', size: 12}
   ],
   [GAME_STATE.STUCK]: [
     {offset: [-250, 0], text: 'Press space to free the ball', size: 16},
-    {offset: [-250, 0], text: 'Use a/d to move paddle', size: 12},
+    {offset: [-250, 0], text: 'Use a/d to move paddle', size: 12}
   ],
   [GAME_STATE.WON]: [
     {offset: [-250, 0], text: 'Congratulations, you won!', size: 16},
-    {offset: [-250, 0], text: 'Press ESC to exit game or Enter to play again', size: 12},
+    {offset: [-250, 0], text: 'Press ESC to exit game or Enter to play again', size: 12}
   ],
   [GAME_STATE.FAILED]: [
     {offset: [-250, 0], text: 'Sorry, you failed!', size: 16},
-    {offset: [-250, 0], text: 'Press ESC to exit game or Enter to play again', size: 12},
+    {offset: [-250, 0], text: 'Press ESC to exit game or Enter to play again', size: 12}
   ]
 };
 
@@ -75,7 +77,7 @@ export default class Text {
       attributes: {
         instancePositions: [new Buffer(gl, new Float32Array([-1000.0, -1000.0])), {divisor: 1}],
         instanceIconFrames: [new Buffer(gl, new Float32Array([0.0, 0.0, 0.0, 0.0])), {divisor: 1}],
-        instanceSizes: [new Buffer(gl, new Float32Array([0.0])), {divisor: 1}],
+        instanceSizes: [new Buffer(gl, new Float32Array([0.0])), {divisor: 1}]
       },
       instanceCount: 1
     });
@@ -98,10 +100,22 @@ export default class Text {
     const positionBuffer = new Buffer(
       gl,
       new Float32Array([
-        -1.0, -1.0, 0.0, 0.0,
-        1.0, -1.0, 1.0, 0.0,
-        1.0, 1.0, 1.0, 1.0,
-        -1.0, 1.0, 0.0, 1.0
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        -1.0,
+        1.0,
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        -1.0,
+        1.0,
+        0.0,
+        1.0
       ])
     );
 
@@ -152,26 +166,29 @@ export default class Text {
 
     let offsetX = 0;
     let offsetY = 0;
-    let i = 0;
+    let objectIndex = 0;
     for (const obj of objects) {
       const {text, offset, size} = obj;
+      const halfSize = size / 2;
       const instanceCoords = this._fontAtlasManager.getTextFrames(text);
-      offsetX = offset[0];
-      offsetY = i > 0 ? offsetY - (size * HEIGHT_SCALE + 4) : offset[1];
+      offsetX = offset[0] + halfSize;
+      offsetY = objectIndex > 0 ? offsetY - size * HEIGHT_SCALE : offset[1];
+      offsetY -= halfSize;
+
       for (let i = 0; i < instanceCoords.length; i++) {
         const coord = instanceCoords[i];
         instancePositions.push(offsetX, offsetY);
         instanceIconFrames.push(coord.x, coord.y, coord.width, coord.height);
         instanceSizes.push(size);
 
-        if (offsetX + size + 2 > maxX - 8) {
-          offsetX = offset[0];
-          offsetY -= size * HEIGHT_SCALE + 4;
+        if (offsetX + size > maxX - 4) {
+          offsetX = offset[0] + halfSize;
+          offsetY -= size * HEIGHT_SCALE + BUFFER;
         }
-        offsetX += size + 2;
+        offsetX += size + BUFFER;
       }
       instanceCount += instanceCoords.length;
-      i++;
+      objectIndex++;
     }
 
     const modelProps = {
@@ -180,7 +197,7 @@ export default class Text {
         instanceIconFrames: [new Buffer(gl, new Float32Array(instanceIconFrames)), {divisor: 1}],
         instanceSizes: [new Buffer(gl, new Float32Array(instanceSizes)), {divisor: 1}]
       },
-      instanceCount,
+      instanceCount
     };
 
     if (!disableCache) {
@@ -209,14 +226,16 @@ export default class Text {
     let objects = null;
     const keys = [];
     let yOffset = 0;
+    const size = 10;
+    const height = size * HEIGHT_SCALE;
     for (const type of POWERUP_TYPES) {
       if (powerup[type] > 0) {
         const text = getEffectsText(type);
         if (text) {
           objects = objects || [];
-          yOffset -= 11;
+          yOffset -= height;
           objects.push({
-            size: 9,
+            size,
             offset: [200, yOffset],
             text
           });
