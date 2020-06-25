@@ -80,7 +80,7 @@ export default class Game {
 
   changeLevel(delta) {
     if (this._gameState === GAME_STATE.MENU) {
-      this._level = (this._level + delta) % LEVELS.length;
+      this._level = (this._level + delta + LEVELS.length) % LEVELS.length;
       this._bricks.setProps({layout: LEVELS[this._level]});
     }
   }
@@ -226,7 +226,7 @@ export default class Game {
     switch (type) {
       case 'speed':
         if (this._sprite.velocity[0] === this._sprite.initialVelocity[0]) {
-          this._sprite.velocity.multiplyByScalar(1.05);
+          this._sprite.velocity.multiplyByScalar(1.1);
         }
         break;
       case 'sticky':

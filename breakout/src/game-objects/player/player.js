@@ -35,29 +35,23 @@ export default class Player extends GameObject {
     // buffers
     const positionBuffer = new Buffer(
       gl,
+      // prettier-ignore
       new Float32Array([
-        -1.0,
-        -1.0,
-        0.0,
-        0.0,
-        1.0,
-        -1.0,
-        1.0,
-        0.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        -1.0,
-        1.0,
-        0.0,
-        1.0
+        -1.0, -1.0, 0.0, 0.0,
+        1.0, -1.0, 1.0, 0.0,
+        1.0, 1.0, 1.0, 1.0,
+        -1.0, 1.0, 0.0, 1.0
       ])
     );
 
     const colorBuffer = new Buffer(
       gl,
-      new Float32Array([1.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 1.0])
+      // prettier-ignore
+      new Float32Array([
+        1.0, 0.0, 1.0, 0.0,
+        1.0, 1.0, 0.0, 0.0,
+        1.0, 1.0, 0.0, 1.0
+      ])
     );
 
     return new Model(gl, {
@@ -88,13 +82,13 @@ export default class Player extends GameObject {
       case -1: // left
         offset[0] -= velocity[0] * 0.01;
         if (offset[0] < xMin) {
-          offset[0] = halfX + xMin;
+          offset[0] = halfX;
         }
         break;
       case 1: // right
         offset[0] += velocity[0] * 0.01;
         if (offset[0] > xMax) {
-          offset[0] = xMax - halfX;
+          offset[0] = xMax;
         }
         break;
       default:

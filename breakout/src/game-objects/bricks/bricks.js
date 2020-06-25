@@ -82,23 +82,12 @@ export default class Bricks extends GameObject {
 
     const positionBuffer = new Buffer(
       gl,
+      // prettier-ignore
       new Float32Array([
-        -1.0,
-        -1.0,
-        0.0,
-        0.0,
-        1.0,
-        -1.0,
-        1.0,
-        0.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        -1.0,
-        1.0,
-        0.0,
-        1.0
+        -1.0, -1.0, 0.0, 0.0,
+        1.0, -1.0, 1.0, 0.0,
+        1.0, 1.0, 1.0, 1.0,
+        -1.0, 1.0, 0.0, 1.0
       ])
     );
 

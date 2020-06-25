@@ -21,7 +21,13 @@ export default class Scene extends GameObject {
       |     |
       0 --- 1
    */
-    const positions = [-1, -1, 0, 0, 1, -1, 1, 0, 1, 1, 1, 1, -1, 1, 0, 1];
+    // prettier-ignore
+    const positions = [
+      -1, -1, 0, 0,
+      1, -1, 1, 0,
+      1, 1, 1, 1,
+      -1, 1, 0, 1
+    ];
 
     const model = new Model(gl, {
       vs: sceneVs,

@@ -16,7 +16,7 @@ export const POWERUP_TYPES = [
   'chaos',
   'shake'
 ];
-const SHAKE_TIME = 0.5;
+const SHAKE_TIME = 0.2;
 const CHAOS_TIME = 2;
 const CONFUSE_TIME = 2;
 
@@ -102,23 +102,12 @@ export default class Powerup extends GameObject {
 
     const positionBuffer = new Buffer(
       gl,
+      // pretty ignore
       new Float32Array([
-        -1.0,
-        -1.0,
-        0.0,
-        0.0,
-        1.0,
-        -1.0,
-        1.0,
-        0.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        -1.0,
-        1.0,
-        0.0,
-        1.0
+        -1.0, -1.0, 0.0, 0.0,
+        1.0, -1.0, 1.0, 0.0,
+        1.0, 1.0, 1.0, 1.0,
+        -1.0, 1.0, 0.0, 1.0
       ])
     );
 

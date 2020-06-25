@@ -44,7 +44,7 @@ function getEffectsText(type) {
       text = 'speed +20%';
       break;
     case 'sticky':
-      text = 'Click space to free ball from paddle';
+      text = 'Click space to free';
       break;
     case 'passthrough':
       text = 'passthrough breakable blocks';
@@ -99,23 +99,12 @@ export default class Text {
     // buffers
     const positionBuffer = new Buffer(
       gl,
+      // prettier-ignore
       new Float32Array([
-        -1.0,
-        -1.0,
-        0.0,
-        0.0,
-        1.0,
-        -1.0,
-        1.0,
-        0.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        -1.0,
-        1.0,
-        0.0,
-        1.0
+        -1.0, -1.0, 0.0, 0.0,
+        1.0, -1.0, 1.0, 0.0,
+        1.0, 1.0, 1.0, 1.0,
+        -1.0, 1.0, 0.0, 1.0
       ])
     );
 
@@ -225,8 +214,8 @@ export default class Text {
   _updatePowerup(powerup) {
     let objects = null;
     const keys = [];
-    let yOffset = 0;
-    const size = 10;
+    let yOffset = -50;
+    const size = 9;
     const height = size * HEIGHT_SCALE;
     for (const type of POWERUP_TYPES) {
       if (powerup[type] > 0) {
@@ -236,7 +225,7 @@ export default class Text {
           yOffset -= height;
           objects.push({
             size,
-            offset: [200, yOffset],
+            offset: [180, yOffset],
             text
           });
           keys.push(type);

@@ -33,29 +33,23 @@ export default class Sprite extends GameObject {
     // buffers
     const positionBuffer = new Buffer(
       gl,
+      // prettier-ignore
       new Float32Array([
-        -1.0,
-        -1.0,
-        0.0,
-        0.0,
-        1.0,
-        -1.0,
-        1.0,
-        0.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        -1.0,
-        1.0,
-        0.0,
-        1.0
+        -1.0, -1.0, 0.0, 0.0,
+        1.0, -1.0, 1.0, 0.0,
+        1.0, 1.0, 1.0, 1.0,
+        -1.0, 1.0, 0.0, 1.0
       ])
     );
 
     const colorBuffer = new Buffer(
       gl,
-      new Float32Array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0])
+      // prettier-ignore
+      new Float32Array([
+        0.0, 0.0, 1.0, 0.0,
+        0.0, 1.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 1.0
+      ])
     );
 
     return new Model(gl, {
