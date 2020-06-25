@@ -5,7 +5,7 @@ import {Model} from '@luma.gl/engine';
 import GameObject from '../base/game-object';
 import simpleTextureVs from '../base/simple-texture-vs';
 import simpleTextureFs from '../base/simple-texture-fs';
-import {Matrix4, Vector3} from '@math.gl/core';
+import {Vector3} from '@math.gl/core';
 
 export default class Player extends GameObject {
   constructor(gl, props) {
