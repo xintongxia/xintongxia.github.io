@@ -9,6 +9,7 @@ module.exports = {
     camelcase: 0,
     'react/forbid-prop-types': 0,
     'react/no-deprecated': 0,
+    'newline-per-chained-call': ["error", { "ignoreChainWithDepth": 2 }]
   },
   parserOptions: {
     ecmaVersion: 2019,

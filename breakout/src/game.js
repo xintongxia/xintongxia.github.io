@@ -69,7 +69,7 @@ export default class Game {
       this._level = 0;
       this._lives = MAX_LIVES;
 
-      this._bricks.reset({level: this._level});
+      this._bricks.reset();
       this._particles.reset();
       this._powerup.reset();
       this._sprite.reset();
@@ -81,7 +81,7 @@ export default class Game {
   changeLevel(delta) {
     if (this._gameState === GAME_STATE.MENU) {
       this._level = (this._level + delta + LEVELS.length) % LEVELS.length;
-      this._bricks.setProps({layout: LEVELS[this._level]});
+      this._bricks.layout = LEVELS[this._level];
     }
   }
 
@@ -96,9 +96,9 @@ export default class Game {
     this._lives = MAX_LIVES;
     this._gameState = GAME_STATE.MENU;
 
+    this._initializeMatrices(gl);
     this._resourceManager = new ResourceManager(gl);
-    this._initializeMatrices();
-    this._initializeTextures();
+    this._resourceManager.loadTextures(TEXTURES);
 
     const spriteSize = [25, 25];
     const spriteRadius = 10;
@@ -120,7 +120,7 @@ export default class Game {
     // models
     this._bricks = new Bricks(gl, {
       size: brickSize,
-      layout: LEVELS[0],
+      layout: LEVELS[this._level],
       textures: {
         block: this._resourceManager.getTexture('block'),
         blockSolid: this._resourceManager.getTexture('blockSolid')
@@ -191,8 +191,7 @@ export default class Game {
     this._framebuffer = this._getFrameBuffer(gl);
   }
 
-  _initializeMatrices() {
-    const gl = this.gl;
+  _initializeMatrices(gl) {
     const halfX = gl.canvas.width / 2;
     const halfY = gl.canvas.height / 2;
     this._projectionMatrix = new Matrix4().ortho({
@@ -203,10 +202,6 @@ export default class Game {
       near: -1,
       far: 1
     });
-  }
-
-  _initializeTextures() {
-    this._resourceManager.loadTextures(TEXTURES);
   }
 
   _onSpriteFallout() {
@@ -225,9 +220,7 @@ export default class Game {
   _activatePowerup({type, color}) {
     switch (type) {
       case 'speed':
-        if (this._sprite.velocity[0] === this._sprite.initialVelocity[0]) {
-          this._sprite.velocity.multiplyByScalar(1.1);
-        }
+        this._sprite.velocity.multiplyByScalar(1.05);
         break;
       case 'sticky':
         break;
@@ -452,51 +445,52 @@ export default class Game {
     }
 
     clear(gl, {color: [0, 0, 0, 1.0], depth: true, framebuffer});
-    bricks.update(dt, {gameState: this._gameState}).render({framebuffer});
-    player.update(dt, {gameState: this._gameState}).render({framebuffer});
+    bricks.render(dt, {gameState: this._gameState, framebuffer});
+    player.render(dt, {gameState: this._gameState, framebuffer});
 
     setParameters(gl, {
       blendFunc: [GL.SRC_ALPHA, GL.ONE]
     });
     particles
-      .update(dt, {
+      .render(dt, {
         gameState: this._gameState,
-        spriteOffset: this._sprite.offset
-      })
-      .render({framebuffer});
+        spriteOffset: this._sprite.offset,
+        framebuffer
+      });
     setParameters(gl, {
       blendFunc: [GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA]
     });
 
-    powerup.update(dt, {gameState: this._gameState}).render({framebuffer});
+    powerup.render(dt, {
+      gameState: this._gameState,
+      framebuffer
+    });
 
     sprite
-      .update(dt, {
+      .render(dt, {
         gameState: this._gameState,
-        offset: [player.offset[0], player.offset[1] + player.halfSize[1] + sprite.radius]
-      })
-      .render({framebuffer});
+        offset: [player.offset[0], player.offset[1] + player.halfSize[1] + sprite.radius],
+        framebuffer
+      });
 
     clear(gl, {color: [0, 0, 0, 1.0], depth: true});
 
     scene
-      .update(dt, {
+      .render(dt, {
         gameState: this._gameState,
         texture: framebuffer.texture,
         chaos: powerup.chaos > 0,
         confuse: powerup.confuse > 0,
         shake: powerup.shake > 0
-      })
-      .render();
+      });
 
     text
-      .update(dt, {
+      .render(dt, {
         gameState: this._gameState,
         level: this._level,
         lives: this._lives,
         powerup: this._powerup
       })
-      .render();
   }
 
   _onFinalize() {

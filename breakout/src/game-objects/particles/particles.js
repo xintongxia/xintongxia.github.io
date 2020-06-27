@@ -75,9 +75,10 @@ export default class Particles extends GameObject {
     return model;
   }
 
-  update(dt, {gameState, spriteOffset}) {
+  render(dt, {gameState, spriteOffset, framebuffer}) {
     if (gameState !== GAME_STATE.STUCK && gameState !== GAME_STATE.ACTIVE) {
-      return this;
+      this.model.draw({framebuffer});
+      return;
     }
 
     const gl = this.gl;
@@ -108,7 +109,17 @@ export default class Particles extends GameObject {
       instancePositions: [new Buffer(gl, instancePositions), {divisor: 1}]
     });
 
-    return this;
+    this.model.draw({framebuffer});
+  }
+
+  reset() {
+    super.reset();
+    this._instanceColors = this._initialInstanceColors.slice();
+    this._instancePositions = this._initialInstancePositions.slice();
+    this.model.setAttributes({
+      instanceColors: [new Buffer(this.gl, this._instanceColors), {divisor: 1}],
+      instancePositions: [new Buffer(this.gl, this._instancePositions), {divisor: 1}]
+    });
   }
 
   _getFirsUnused() {
@@ -129,19 +140,5 @@ export default class Particles extends GameObject {
     }
     this._lastUnused = 0;
     return 0;
-  }
-
-  render(options) {
-    this.model.draw(options);
-  }
-
-  reset() {
-    super.reset();
-    this._instanceColors = this._initialInstanceColors.slice();
-    this._instancePositions = this._initialInstancePositions.slice();
-    this.model.setAttributes({
-      instanceColors: [new Buffer(this.gl, this._instanceColors), {divisor: 1}],
-      instancePositions: [new Buffer(this.gl, this._instancePositions), {divisor: 1}]
-    });
   }
 }

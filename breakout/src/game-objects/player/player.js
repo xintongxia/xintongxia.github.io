@@ -24,7 +24,7 @@ export default class Player extends GameObject {
     this._color.set(color[0], color[1], color[2]);
   }
 
-  set texture(texture) {
+  setTexture(texture) {
     this.model.setUniforms({
       uTexture: texture
     });
@@ -95,17 +95,7 @@ export default class Player extends GameObject {
     }
   }
 
-  setTexture(texture) {
-    this.model.setUniforms({
-      uTexture: texture
-    });
-  }
-
-  update(dt, {gameState}) {
-    return this;
-  }
-
-  render(options) {
+  render(dt, options) {
     this.model
       .setUniforms({
         uOffset: this.offset,
@@ -117,7 +107,7 @@ export default class Player extends GameObject {
   reset() {
     super.reset();
     this.model.setUniforms({
-      uTexture: this.textures['player']
+      uTexture: this.textures.player
     });
     this.color.set(1.0, 1.0, 1.0);
   }

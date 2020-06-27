@@ -47,7 +47,7 @@ export default class Scene extends GameObject {
     return model;
   }
 
-  update(dt, {gameState, texture, chaos, confuse, shake}) {
+  render(dt, {gameState, texture, chaos, confuse, shake}) {
     this._timer = this._timer++ % 1e6;
 
     this.model.setUniforms({
@@ -56,11 +56,6 @@ export default class Scene extends GameObject {
       shake,
       uTime: this._timer,
       uTexture: texture
-    });
-    return this;
-  }
-
-  render(options) {
-    this.model.draw();
+    }).draw();
   }
 }

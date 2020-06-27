@@ -16,6 +16,7 @@ export const BRICK_STATE = {
 export default class Bricks extends GameObject {
   constructor(gl, props) {
     super(gl, props);
+    this._layout = props.layout;
     this._intanceCount = 0;
     this._instancePositions = null;
     this._instanceColors = null;
@@ -45,6 +46,15 @@ export default class Bricks extends GameObject {
     return this._instanceColors;
   }
 
+  getInstance(index) {
+    const {instanceColors, instancePositions, instanceStates} = this;
+    return {
+      color: instanceColors.subarray(index * 4, index * 4 + 3),
+      state: instanceStates[index],
+      offset: instancePositions.subarray(index * 2, index * 2 + 2)
+    };
+  }
+
   setInstance(index, props) {
     if ('state' in props) {
       this._instanceStates[index] = props.state;
@@ -52,28 +62,11 @@ export default class Bricks extends GameObject {
     }
   }
 
-  setProps(props) {
-    this.props = props;
-    if ('layout' in props) {
-      this._updateModel(props);
+  set layout(layout) {
+    if (this._layout !== layout) {
+      this._updateModel(layout);
     }
-  }
-
-  _updateModel(props) {
-    const gl = this.gl;
-    const {
-      instancePositions,
-      instanceColors,
-      instanceStates,
-      instanceCount
-    } = this._createInstances(props.layout);
-
-    this.model.setProps({instanceCount});
-    this.model.setAttributes({
-      instancePositions: [new Buffer(gl, instancePositions), {divisor: 1}],
-      instanceColors: [new Buffer(gl, instanceColors), {divisor: 1}],
-      instanceStates: [new Buffer(gl, instanceStates), {divisor: 1}]
-    });
+    this._layout = layout;
   }
 
   createModel(props) {
@@ -121,7 +114,7 @@ export default class Bricks extends GameObject {
     });
   }
 
-  update(dt, {gameState}) {
+  render(dt, {gameState, framebuffer}) {
     const gl = this.gl;
     if (this._changed) {
       this.model.setAttributes({
@@ -130,11 +123,7 @@ export default class Bricks extends GameObject {
       this._changed = false;
     }
 
-    return this;
-  }
-
-  render(options) {
-    this.model.draw(options);
+    this.model.draw({framebuffer});
   }
 
   reset() {
@@ -149,13 +138,21 @@ export default class Bricks extends GameObject {
     });
   }
 
-  getInstance(index) {
-    const {instanceColors, instancePositions, instanceStates} = this;
-    return {
-      color: instanceColors.subarray(index * 4, index * 4 + 3),
-      state: instanceStates[index],
-      offset: instancePositions.subarray(index * 2, index * 2 + 2)
-    };
+  _updateModel(layout) {
+    const gl = this.gl;
+    const {
+      instancePositions,
+      instanceColors,
+      instanceStates,
+      instanceCount
+    } = this._createInstances(layout);
+
+    this.model.setProps({instanceCount});
+    this.model.setAttributes({
+      instancePositions: [new Buffer(gl, instancePositions), {divisor: 1}],
+      instanceColors: [new Buffer(gl, instanceColors), {divisor: 1}],
+      instanceStates: [new Buffer(gl, instanceStates), {divisor: 1}]
+    });
   }
 
   _createInstances(layout) {

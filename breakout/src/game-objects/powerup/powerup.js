@@ -140,9 +140,10 @@ export default class Powerup extends GameObject {
     return model;
   }
 
-  update(dt, {gameState}) {
+  render(dt, {gameState, framebuffer}) {
     if (gameState === GAME_STATE.MENU) {
-      return this;
+      this.model.draw({framebuffer});
+      return;
     }
 
     const gl = this.gl;
@@ -159,7 +160,8 @@ export default class Powerup extends GameObject {
 
     const objects = this._objects;
     if (!objects.length) {
-      return this;
+      this.model.draw({framebuffer});
+      return;
     }
 
     this._objects = [];
@@ -188,7 +190,7 @@ export default class Powerup extends GameObject {
       instanceCount: this._objects.length
     });
 
-    return this;
+    this.model.draw({framebuffer});
   }
 
   activate(object) {
@@ -288,10 +290,6 @@ export default class Powerup extends GameObject {
         texIndex: 6
       });
     }
-  }
-
-  render(options) {
-    this.model.draw(options);
   }
 
   reset() {

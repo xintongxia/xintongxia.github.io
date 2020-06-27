@@ -41,7 +41,7 @@ function getEffectsText(type) {
   let text = null;
   switch (type) {
     case 'speed':
-      text = 'speed +20%';
+      text = 'speed +5%';
       break;
     case 'sticky':
       text = 'Click space to free';
@@ -236,7 +236,7 @@ export default class Text {
     this._updateTexts(this._models.powerup, keys.join(' '), objects, true);
   }
 
-  update(dt, {gameState, level, lives, powerup}) {
+  render(dt, {gameState, level, lives, powerup}) {
     if (gameState !== this._lastGameState) {
       this._lastGameState = gameState;
       this._updateGameState(gameState);
@@ -251,13 +251,10 @@ export default class Text {
     }
 
     this._updatePowerup(powerup);
-    return this;
-  }
 
-  render(options) {
     const models = Object.values(this._models);
     for (const model of models) {
-      model.draw(options);
+      model.draw();
     }
   }
 

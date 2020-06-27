@@ -92,7 +92,7 @@ export default class Sprite extends GameObject {
     offset.add(velocity.clone().multiplyScalar(dt));
   }
 
-  update(dt, {gameState, offset, skipUpdateOffset}) {
+  render(dt, {gameState, offset, framebuffer}) {
     switch (gameState) {
       case GAME_STATE.ACTIVE:
         this._updatePositions(dt);
@@ -105,16 +105,12 @@ export default class Sprite extends GameObject {
       default:
     }
 
-    return this;
-  }
-
-  render(options) {
     this.model
       .setUniforms({
         uOffset: this.offset,
         uColor: this.color
       })
-      .draw(options);
+      .draw({framebuffer});
   }
 
   reset() {

@@ -42,6 +42,14 @@ export default class GameObject {
     });
   }
 
+  set textures(textures) {
+    this._textures = textures;
+  }
+
+  get textures() {
+    return this._textures;
+  }
+
   get halfSize() {
     return this._halfSize;
   }
@@ -66,12 +74,11 @@ export default class GameObject {
     const props = this.props;
 
     this.projectionMatrix = props.projectionMatrix;
-    this.textures = props.textures;
-
     this.initialVelocity = props.velocity || [0, 0];
     this.initialOffset = props.offset || [0, 0];
     this.initialSize = props.size || [0, 0];
 
+    this._textures = props.textures;
     this._velocity = this._velocity.set(this.initialVelocity[0], this.initialVelocity[1]);
     this._offset = this._offset.set(this.initialOffset[0], this.initialOffset[1]);
     this._size = this._size.set(this.initialSize[0], this.initialSize[1]);
@@ -91,12 +98,8 @@ export default class GameObject {
 
   setProps() {}
 
-  update(dt, {gameState}) {
-    return this;
-  }
-
-  render(options) {
-    this.model.draw(options);
+  render(dt, options) {
+    console.error('should implement');
   }
 
   reset() {
