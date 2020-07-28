@@ -14,30 +14,78 @@
       margin: 0;
       padding: 0;
     }
+
     a, a:visited {
       text-decoration: none;
       color: #666;
       font-size: 24px;
       transition: 200ms;
     }
+
     a:hover {
       color: #ccc;
     }
+
     .container {
       position: absolute;
       width: 100%;
-      top: 50%;
-      transform: translateY(-50%);
-      text-align: center;
       padding: 24px;
       box-sizing: border-box;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .item {
+      display: flex;
+      flex-direction: column;
+      width: 45%;
+      padding: 24px;
+      justify-content: center;
+      align-content: center;
+    }
+
+    .demo-item {
+      display: flex;
+    }
+
+    .item-image {
+      width: 100%;
+    }
+
+    .item-text {
+      color: #cccccc;
+      font-weight: 500;
+      font-family: monospace;
+      font-size: large;
     }
   </style>
 </head>
 <body>
 <div class="container">
-  <p><a href="./react-map-gl-draw/">react-map-gl-draw</a>
-  <p><a href="./breakout">2D Breakout Game</a>
+  <div class="item">
+    <div class="demo-item">
+      <a href="./react-map-gl-draw/">
+        <img class="item-image" src="./static/react-map-gl-draw.gif" alt="Draw with Map">
+      </a>
+    </div>
+    <div class="item-text">Draw Polygons on Map</div>
+  </div>
+  <div class="item">
+    <div class="demo-item">
+      <a href="https://loaders.gl/examples/i3s" target="_blank" rel="noopener">
+        <img class="item-image" src="./static/i3s-loader.png" alt="Load i3s Tileset">
+      </a>
+    </div>
+    <div class="item-text">Load I3S Tileset</div>
+  </div>
+  <div class="item">
+    <div class="demo-item">
+      <a href="./breakout">
+        <img class="item-image" src="./static/breakout.gif" alt="Breakout (2D Game)">
+      </a>
+    </div>
+    <div class="item-text">Breakout: A 2D Game</div>
+  </div>
 </div>
 </body>
 </html>
